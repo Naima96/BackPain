@@ -6,5 +6,5 @@ save_non_project_files = False
 
 [main]
 version = 0.2.0
-recent_files = ['back_pain_phone.py']
+recent_files = ['..\\Machine Learning\\Feature_calulation_v2.py']
 
