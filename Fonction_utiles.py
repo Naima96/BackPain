@@ -50,7 +50,7 @@ def Find_jumps_using_peaks(array_dataframe=[],plot=True):
             Jump_stop.append(peaks[-1])
             if plot==True:
                 plt.title("dataframe%d"%(i))
-                plt.plot(norm[peaks[0]:peaks[-1]], "H",color='k')
+                plt.plot(norm[peaks[0]:peaks[-1]],color='k')
         else:
             print("could not detect peaks correctly: check the parameters in find_peaks to be tuned")
 
