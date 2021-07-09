@@ -60,7 +60,7 @@ def gtom2s(dataframe):
     """
     Change unit of accelerometer signal into m/s^2
     """
-    dataframe=dataframe.acc_interp.mul(9.8)
+    dataframe=dataframe.mul(9.8)
     return 
 
 def rad2deg(dataframe):
@@ -68,7 +68,7 @@ def rad2deg(dataframe):
     Change unit of gyroscope signal into deg/sec
     """
     c=180/np.pi
-    dataframe= dataframe.gyro_interp.mul(c)
+    dataframe= dataframe.mul(c)
     return
 
 def crop_signals(array_dataframe,Jump_start,Jump_end):
