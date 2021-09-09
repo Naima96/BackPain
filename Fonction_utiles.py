@@ -12,6 +12,7 @@ import pandas as pd
 from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
 
+
 def Find_jumps_using_peaks(array_dataframe=[],plot=True):
     """
     This functions detect the first highest peak at the begining of signal
