@@ -21,3 +21,5 @@ exceptions=["S1_ME_1_gaitupraw.BIN","S1_ME_1_phone.csv"]
 
 DATA,NAME,FREQ,ETIQUETTE,ind_a_tracer=importation(dossier,exceptions) #Ici s'importe les données sous la forme s'un DataFrame pandas
 plot_signaux(DATA,ind_a_tracer,ETIQUETTE,dossier) #Ici s'affichent les 3 accélérations et 3 vitesses de rotations des 3 XSens 
+
+#Test GITHUB Sacha
