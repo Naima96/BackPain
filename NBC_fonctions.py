@@ -141,4 +141,114 @@ def plot_signaux(DATA,ind_a_tracer,ETIQUETTE,dossier):
 if __name__=="__main__":
     plt.close('all')
     
+def plot_signaux_v2(DATA,ind_a_tracer,ETIQUETTE,dossier):
+
+    k=0
+    fig=plt.figure()
+    fig.suptitle(f"{dossier}", fontsize=25)
+    
+    for i in ind_a_tracer:
+        data=DATA[i]    
+        plt.subplot(3,2,2*k+1)
+        pos=2*k+1
+        plt.plot(data['Acc_X'],label='Acc_X')
+        plt.plot(data['Acc_Y'],label='Acc_Y')
+        plt.plot(data['Acc_Z'],label='Acc_Z')
+        
+        if pos==1:
+            plt.legend()
+            plt.legend(bbox_to_anchor=(1,1), loc='right',)
+        plt.grid()
+        plt.title(f"{ETIQUETTE[k]}")
+        plt.ylabel("$Acc (m.s^-2)$")
+        plt.xlabel("")
+        
+        
+        plt.subplot(3,2,2*(k+1))
+        pos = 2*(k+1)
+        plt.plot(data['Gyr_X'],label='Gyr_X')
+        plt.plot(data['Gyr_Y'],label='Gyr_Y')
+        plt.plot(data['Gyr_Z'],label='Gyr_Z')
+    
+        if pos==2:
+            plt.legend()
+            plt.legend(bbox_to_anchor=(1,1), loc='right',)
+        plt.grid()
+        plt.ylabel("$Gyr (rad.s^-2$)")
+        plt.xlabel("Temps (s)")
+        
+    
+        
+        k+=1
+    print(f"Signaux de {len(ind_a_tracer)} capteurs affichés avec succès")
+    
+    
+def plot_signaux_v3(DATA,ind_a_tracer,ETIQUETTE,dossier,etats):
+
+    k=0
+    fig=plt.figure()
+    fig, axe=plt.subplots(3,2,sharex=True)
+    fig.tight_layout()
+    fig.suptitle(f"{dossier}", fontsize=15)
+    
+    for i in ind_a_tracer:
+        data=DATA[i]    
+        #plt.subplot(3,2,2*k+1)
+        
+        axe[k,0].plot(data['Time'],data['Acc_X'],label='Acc_X')
+        axe[k,0].plot(data['Time'],data['Acc_Y'],label='Acc_Y')
+        axe[k,0].plot(data['Time'],data['Acc_Z'],label='Acc_Z')
+        
+        # axe[0,0].legend()
+        # axe[0,0].legend(bbox_to_anchor=(1,1), loc='right', fontsize=10)
+        
+        axe[k,0].set_title(ETIQUETTE[k]+'_Acc')
+        axe[1,0].set_ylabel("$(m.s^-2)$",fontsize=10)
+        axe[2,0].set_xlabel("Temps (s)")
+        imin=0
+        for i, row in etats.iterrows():
+            itime = row["Temps (en s)"]
+            ietat = row["Etat"]
+            if ietat == 'de_dyn':
+                color = 'r'
+            if ietat == 'de_stat_sup_dyn':
+                color = 'm'
+            if ietat == 'as':
+                color = 'g'
+            if ietat == 'al':
+                color='b'
+            axe[k,0].axvspan(imin,itime, facecolor=color, alpha=0.5)
+            imin=itime
+        
+        
+        axe[k,1].plot(data['Time'],data['Gyr_X'],label='X')
+        axe[k,1].plot(data['Time'],data['Gyr_Y'],label='Y')
+        axe[k,1].plot(data['Time'],data['Gyr_Z'],label='Z')
+    
+
+        axe[0,1].legend()
+        axe[0,1].legend(bbox_to_anchor=(1,1), loc='right', fontsize=10)
+
+        axe[k,1].set_title(ETIQUETTE[k]+'_Gyr')
+        axe[1,1].set_ylabel("$(rad.s^-2$)",fontsize=10)
+        axe[2,1].set_xlabel("Temps (s)")
+        imin=0
+        for i, row in etats.iterrows():
+            itime = row["Temps (en s)"]
+            ietat = row["Etat"]
+            if ietat == 'de_dyn':
+                color = 'r'
+            if ietat == 'de_stat_sup_dyn':
+                color = 'm'
+            if ietat == 'as':
+                color = 'g'
+            if ietat == 'al':
+                color='b'
+            axe[k,1].axvspan(imin,itime, facecolor=color, alpha=0.5)
+            imin=itime
+        
+    
+        
+        k+=1
+    print(f"Signaux de {len(ind_a_tracer)} capteurs affichés avec succès")
     
