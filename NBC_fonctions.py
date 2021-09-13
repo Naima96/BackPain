@@ -12,7 +12,7 @@ import shutil
 import copy
 from sklearn.impute import SimpleImputer
 
-
+#hiii mathberger was here
 def importer_data(name,path):
 
     data=pd.read_csv(f"{path}/{name}", sep=':')
