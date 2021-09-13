@@ -1,0 +1,5 @@
+// Start Time: 0
+// Update Rate: 60.0Hz
+// Scenario: 34.3
+// Firmware Version: 2.0.8
+Counter	Acc_X	Acc_Y	Acc_Z	Gyr_X	Gyr_Y	Gyr_Z	Quat_w	Quat_x	Quat_y	Quat_z	
