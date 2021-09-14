@@ -16,8 +16,11 @@ from sklearn.impute import SimpleImputer
 def importer_data(name,path):
 
     data=pd.read_csv(f"{path}/{name}", sep=':')
+    
     freq=int(data[' 0'][0][1:len(data[' 0'][0])-4])
+    
     data=pd.read_csv(f'{path}/{name}')
+    
     data=data.iloc[3:len(data)-2,0]
     data=data.str.split("\t")
     file=data.to_list()
@@ -37,16 +40,20 @@ def importer_data(name,path):
     
     return(data,freq)
     
+
 def egalisation(DATA,FREQ):
     
     #FONCTION QUI MET TOUT LES TABLEAUX D'UNE MEME ACQUISITION A LA MEME LONGUEUR
     #FONCTION QUI REINDEX LES TABLEAUX AVEC EXACTEMENT LE MEME VECTEUR DE TEMPS i.e. : permet ensuite la fusion sans décalage
+    
     id_min=np.argmin([len(DATA[i]) for i in range(len(DATA))])
-
+    #get the minimum length of data from each 6 files but no interpolation is done 
     for k in range(len(DATA)):
         periode=1/FREQ[k]
         ind=np.linspace(0,len(DATA[id_min])*periode,len(DATA[id_min]))
         DATA[k]=DATA[k].iloc[:len(DATA[id_min]),:]
+        # this is very strong approximation... we dont get a time vector 
+        #in the file so it should be the best we can do 
         DATA[k].index=ind
     return(DATA)
     
@@ -128,7 +135,7 @@ def plot_signaux(DATA,ind_a_tracer,ETIQUETTE,dossier):
         plt.legend()
         plt.grid()
         plt.title(f"{ETIQUETTE[k]}")
-        plt.ylabel("$Acc (m.s^-2)$ / $Gyr (rad.s^-2$)")
+        plt.ylabel("$Acc (m.s^-2)$ / $Gyr (rad.s^-1$)")
         plt.xlabel("Temps (s)")
         plt.legend(bbox_to_anchor=(1,1), loc='right',)
     
