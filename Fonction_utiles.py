@@ -11,9 +11,9 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
+from Python_G_to_sec import main
 
-
-def Find_jumps_using_peaks(array_dataframe=[],plot=True):
+def Find_jumps_using_peaks(array_dataframe=[],plot=False):
     """
     This functions detect the first highest peak at the begining of signal
     and the last highest peak at the end of the signal. Peaks are calculated using
@@ -38,8 +38,9 @@ def Find_jumps_using_peaks(array_dataframe=[],plot=True):
     Jump_start=[]
     Jump_stop=[]
     i=0
-    plt.figure()
+    
     for df in array_dataframe:
+        plt.figure()
         print("dataframe %d"%i)
         i=i+1
         norm= calculate_norm(df)
@@ -131,6 +132,133 @@ def calculate_norm(dataframe):
     norm=np.array([np.sqrt(i) for i in m])
     
     return norm
+
+
+    
+def caclulate_activity_count(dataframes=[],sampling_freq=70):
+    
+    print("Calculating activity count")
+    Act_counts=[]
+    for df in dataframes:
+        df=df.rename(columns = {'Acc_X': 'Accx', 'Acc_Y': 'Accy',
+                                              'Acc_Z':'Accz'}, inplace = False)
+        
+        
+        Act_count=main(df,filesf=sampling_freq)
+        
+        Act_counts.append(Act_count)
+    
+    return(Act_counts)
+
+
+def Split_into_Acc_Gyr(dataframes=[]):
+    
+    print("splitting the dataframes into acc dataframe and gyro dataframe")
+    
+    Acc=[]
+    Gyro=[]
+    for df in dataframes:
+        df_Gyro=df[df.columns[3:]]
+        df_Acc=df[df.columns[0:3]]
+        Acc.append(df_Acc)
+        Gyro.append(df_Gyro)
+        
+    return(Acc,Gyro)
+
+
+    
+    
+def Calculate_vector_Magnitude(dataframes):
+    print("calculating vector magnitude")
+    
+    Vect_mag=[]
+    
+    for df in dataframes:
+        x=df['axis1'].values**2
+        y=df['axis2'].values**2
+        z=df['axis3'].values**2
+        m=x+y+z
+        mm=np.array([np.sqrt(i) for i in m])
+        
+        Vect_mag.append(mm)
+        
+    
+    return Vect_mag
+    
+    
+        
+        
+def plot_Vector_Magnitude(DATA,ind_a_tracer,ETIQUETTE,dossier,etats):
+
+    k=0
+    fig=plt.figure()
+    fig, axe=plt.subplots(3,1,sharex=True)
+    fig.tight_layout()
+    fig.suptitle(f"{dossier}", fontsize=15)
+    
+    for i in ind_a_tracer:
+        data=DATA[i]    
+        #plt.subplot(3,2,2*k+1)
+        
+        axe[k].plot(data,label='Vect_Mag')
+        
+        # axe[0,0].legend()
+        # axe[0,0].legend(bbox_to_anchor=(1,1), loc='right', fontsize=10)
+        
+        axe[k].set_title(ETIQUETTE[k]+'_Act_Count')
+        axe[1].set_ylabel("Count",fontsize=10)
+        axe[2].set_xlabel("Temps (s)")
+        imin=0
+        nr=0
+        nm=0
+        ng=0
+        nb=0
+        
+        for i, row in etats.iterrows():
+            itime = row["Temps (en s)"]
+            ietat = row["Etat"]
+            
+            if ietat == 'de_dyn':
+                color = 'r'
+                axe[k].axvspan(imin,itime,label = "_"*(nr)+ietat, facecolor=color, alpha=0.5)
+
+                nr=1
+                
+            if ietat == 'de_stat_sup_dyn':
+                color = 'm'
+                axe[k].axvspan(imin,itime,label = "_"*(nm)+ietat, facecolor=color, alpha=0.5)
+                nm=1
+                
+            if ietat == 'as':
+                color = 'g'
+                axe[k].axvspan(imin,itime,label = "_"*(ng)+ietat, facecolor=color, alpha=0.5)
+
+                ng=1
+                
+            if ietat == 'al':
+                color='b'
+                
+                axe[k].axvspan(imin,itime,label = "_"*(nb)+ietat, facecolor=color, alpha=0.5)
+
+                nb=1
+            
+            imin=itime
+        
+        k=k+1
+        
+        plt.legend()
+        
+        
+        
+    print(f"Signaux de {len(ind_a_tracer)} capteurs affichés avec succès")       
+
+    
+    
+    
+
+   
+   
+    
     
     
     

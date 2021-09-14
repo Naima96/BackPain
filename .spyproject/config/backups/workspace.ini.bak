@@ -6,5 +6,5 @@ save_non_project_files = False
 
 [main]
 version = 0.2.0
-recent_files = ['Fonction_utiles.py', 'CPclass.py', '..\\phdcodes\\TreadvsPhone\\CPclass.py', 'Python_G_to_sec.py']
+recent_files = ['Fonction_utiles.py', 'CPclass.py', 'Python_G_to_sec.py', 'back_pain_phone.py', 'NBC_fonctions.py', 'NBC_Affichage_signaux.py']
 
