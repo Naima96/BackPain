@@ -38,7 +38,7 @@ plot_signaux_v2(Cropped_DATA,ind_a_tracer,ETIQUETTE,dossier)
 #Calculate Activity count and plot the vector magnitude
 Acc,Gyro=Fu.Split_into_Acc_Gyr(Cropped_DATA)
 
-Act_counts=Fu.caclulate_activity_count(dataframes=Acc,sampling_freq=70)
+Act_counts=Fu.caclulate_activity_count(dataframes=Acc,sampling_freq=FREQ[1])
 
 Vect_mag=Fu.Calculate_vector_Magnitude(dataframes=Act_counts)
 
